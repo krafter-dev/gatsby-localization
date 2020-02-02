@@ -1,4 +1,3 @@
-# gatsby-localization
+# [gatsby-localization](https://gatsby-localization.netlify.com/)
 
-[gatsby-localization.netlify.com](https://gatsby-localization.netlify.com/)
-
+### Starter with setup for localization
