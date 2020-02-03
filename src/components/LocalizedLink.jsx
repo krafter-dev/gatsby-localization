@@ -25,4 +25,5 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default connect(mapStateToProps)(LocalizedLink);
+// pass empty {} to seccond arg, to avoid pasing dispatch to props
+export default connect(mapStateToProps, {})(LocalizedLink);

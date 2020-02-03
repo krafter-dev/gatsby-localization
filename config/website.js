@@ -1,26 +1,41 @@
 const base = {
   name: `Gatsby`, // Site title.
-  url: `https://gatsby-i18n.test`, // Domain of your website. No trailing slash!
+  url: `https://gatsby-localization.netlify.com/`, // Domain of your website. No trailing slash!
 };
 
 module.exports = {
   /* meta tags */
-  siteTitle: `${base.name} i18n`, // Manifest `name`
-  siteTitleAlt: `${base.name} i18n`, // Title for JSONLD.
-  siteShortName: base.name, // Manifest `short_name`. MUST be shorter than 12 characters
-  siteTitleTemplate: `%s | ${base.name} i18n`, // Useful when you want titles to inherit from a template
-  siteDescription: `Gatsby starter for easy localization setup with Redux.`, // Manifest `description`
+
+  // Manifest `name`
+  siteTitle: `${base.name} i18n`,
+  // Title for JSONLD.
+  siteTitleAlt: `${base.name} i18n`,
+  // Manifest `short_name`. MUST be shorter than 12 characters
+  siteShortName: base.name,
+  // Useful when you want titles to inherit from a template
+  siteTitleTemplate: `%s | ${base.name} i18n`,
+  // Manifest `description`
+  siteDescription: `Gatsby starter for easy localization setup with Redux.`,
 
   /* url */
-  siteUrl: base.url, // Domain of your site. No trailing slash!
-  pathPrefix: `/`, // Prefixes all links. For cases when deployed to example.github.io/gatsby-example/.
+
+  // Domain of your site. No trailing slash!
+  siteUrl: base.url,
+  // Prefixes all links. For cases when deployed to example.github.io/gatsby-example/.
+  pathPrefix: `/`,
 
   /* social */
-  siteLogo: `src/images/gatsby-icon.png`, // Logo used for SEO.
+
+  // Logo used for SEO.
+  siteLogo: `src/images/gatsby-icon.png`,
 
   /* manifest */
-  manifestBackgroundColor: `#222222`, // Used for setting manifest background and progress theme colors.
-  manifestThemeColor: `#222222`, // Used for setting manifest theme color .
+
+  // Used for setting manifest background and progress theme colors.
+  manifestBackgroundColor: `#222222`,
+  // Used for setting manifest theme color .
+  manifestThemeColor: `#222222`,
   manifestDisplay: `standalone`,
-  manifestIcon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+  // This path is relative to the root of the site.
+  manifestIcon: `src/images/gatsby-icon.png`,
 };
