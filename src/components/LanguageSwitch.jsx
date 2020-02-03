@@ -26,7 +26,7 @@ const LanguageSwitch = ({ setLocaleConnect, currentLocale, name }) => {
           <Link
             key={lang}
             title={i18n[lang].languageName}
-            hrefLang={i18n[lang]}
+            hrefLang={i18n[lang].htmlLang}
             to={path}
             onClick={() => setLocaleConnect(lang)}
             style={{

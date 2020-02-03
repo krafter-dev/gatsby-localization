@@ -1,12 +1,34 @@
 const path = require('path');
 const website = require('./config/website');
+const i18n = require('./config/i18n');
+
+const pathPrefix = website.pathPrefix === '/' ? '' : website.pathPrefix;
+
+// https://www.gatsbyjs.org/packages/gatsby-plugin-robots-txt/#netlify
+const {
+  NODE_ENV,
+  URL: NETLIFY_SITE_URL = website.siteUrl,
+  DEPLOY_PRIME_URL: NETLIFY_DEPLOY_URL = NETLIFY_SITE_URL,
+  CONTEXT: NETLIFY_ENV = NODE_ENV,
+} = process.env;
+const isNetlifyProduction = NETLIFY_ENV === 'production';
+const siteUrl = isNetlifyProduction ? NETLIFY_SITE_URL : NETLIFY_DEPLOY_URL;
 
 module.exports = {
+  /* General Information */
+  pathPrefix: website.pathPrefix,
   siteMetadata: {
-    title: website.siteTitle,
-    description: website.siteDescription,
-    logo: website.siteLogo,
+    siteTitle: website.siteTitle,
+    siteTitleAlt: website.siteTitleAlt,
+    siteTitleTemplate: website.siteTitleTemplate,
+    siteUrl: siteUrl + pathPrefix, // For gatsby-plugin-sitemap
+    logo: website.siteLogo, // Logo for JSONLD
+    siteDescription: website.siteDescription,
+    author: website.author,
+    twitter: website.twitter,
+    facebook: website.facebook,
   },
+  /* Plugins */
   plugins: [
     `gatsby-plugin-react-helmet`,
     {
@@ -29,11 +51,44 @@ module.exports = {
       options: {
         name: website.siteTitle,
         short_name: website.siteShortName,
-        start_url: `/`,
+        description: website.siteDescription,
+        lang: 'en',
+        start_url: '/',
+        localize: [
+          {
+            name: i18n.de.siteTitle,
+            short_name: i18n.de.siteShortName,
+            description: i18n.de.siteDescription,
+            lang: 'de',
+            start_url: '/de/',
+          },
+        ],
         background_color: website.manifestBackgroundColor,
         theme_color: website.manifestThemeColor,
         display: website.manifestDisplay,
-        icon: website.manifestIcon, // This path is relative to the root of the site.
+        icon: website.manifestIcon,
+      },
+    },
+    `gatsby-plugin-sitemap`,
+    {
+      resolve: `gatsby-plugin-robots-txt`,
+      options: {
+        resolveEnv: () => NETLIFY_ENV,
+        env: {
+          production: {
+            policy: [{ userAgent: '*' }],
+          },
+          'branch-deploy': {
+            policy: [{ userAgent: '*', disallow: ['/'] }],
+            sitemap: null,
+            host: null,
+          },
+          'deploy-preview': {
+            policy: [{ userAgent: '*', disallow: ['/'] }],
+            sitemap: null,
+            host: null,
+          },
+        },
       },
     },
     {
