@@ -2,6 +2,15 @@ const path = require('path');
 const website = require('./config/website');
 const i18n = require('./config/i18n');
 
+const activeEnv =
+  process.env.GATSBY_ACTIVE_ENV || process.env.NODE_ENV || 'development';
+// eslint-disable-next-line no-console
+console.log(`Using environment config: '${activeEnv}'`);
+
+require('dotenv').config({
+  path: `.env.${activeEnv}`,
+});
+
 const pathPrefix = website.pathPrefix === '/' ? '' : website.pathPrefix;
 
 // https://www.gatsbyjs.org/packages/gatsby-plugin-robots-txt/#netlify
