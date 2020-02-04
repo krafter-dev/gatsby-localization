@@ -13,16 +13,6 @@ require('dotenv').config({
 
 const pathPrefix = website.pathPrefix === '/' ? '' : website.pathPrefix;
 
-// https://www.gatsbyjs.org/packages/gatsby-plugin-robots-txt/#netlify
-const {
-  NODE_ENV,
-  URL: NETLIFY_SITE_URL = website.siteUrl,
-  DEPLOY_PRIME_URL: NETLIFY_DEPLOY_URL = NETLIFY_SITE_URL,
-  CONTEXT: NETLIFY_ENV = NODE_ENV,
-} = process.env;
-const isNetlifyProduction = NETLIFY_ENV === 'production';
-const siteUrl = isNetlifyProduction ? NETLIFY_SITE_URL : NETLIFY_DEPLOY_URL;
-
 module.exports = {
   /* General Information */
   pathPrefix: website.pathPrefix,
@@ -30,7 +20,7 @@ module.exports = {
     siteTitle: website.siteTitle,
     siteTitleAlt: website.siteTitleAlt,
     siteTitleTemplate: website.siteTitleTemplate,
-    siteUrl: siteUrl + pathPrefix, // For gatsby-plugin-sitemap
+    siteUrl: website.siteUrl + pathPrefix, // For gatsby-plugin-sitemap
     logo: website.siteLogo, // Logo for JSONLD
     siteDescription: website.siteDescription,
     author: website.author,
@@ -82,20 +72,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-robots-txt`,
       options: {
-        resolveEnv: () => NETLIFY_ENV,
+        resolveEnv: () => process.env.GATSBY_ENV,
         env: {
+          development: {
+            policy: [{ userAgent: '*', disallow: ['/'] }],
+          },
           production: {
-            policy: [{ userAgent: '*' }],
-          },
-          'branch-deploy': {
-            policy: [{ userAgent: '*', disallow: ['/'] }],
-            sitemap: null,
-            host: null,
-          },
-          'deploy-preview': {
-            policy: [{ userAgent: '*', disallow: ['/'] }],
-            sitemap: null,
-            host: null,
+            policy: [{ userAgent: '*', allow: '/' }],
           },
         },
       },
